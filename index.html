@@ -1,215 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="NaijaLearn-AI — an AI-powered learning platform." />
-  <title>NaijaLearn-AI</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>NaijaLearn — Multilingual STEM and ICT Tutor for Nigerian University Students</title>
+  <meta name="description" content="Free STEM and ICT tutoring for Nigerian university students in English, Pidgin, Yoruba, Hausa and Igbo"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --green: #008751;
-      --green-dark: #006b40;
-      --bg: #f4f6f5;
-      --text: #1a1f1c;
-      --muted: #6b7770;
-      --border: #d9e0dc;
-      --user-bubble: #008751;
-      --bot-bubble: #ffffff;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --g1:#00C851;
+      --g2:#007A3D;
+      --g3:#00FF6A;
+      --y1:#FFD000;
+      --y2:#FF9500;
+      --white:#FFFFFF;
+      --dark:#050F07;
+      --dark2:#0D1F10;
+      --gray:#6B7280;
+      --lgray:#F3F4F6;
+      --offwhite:#F5FFF7;
+      --rad:14px;
+      --radsm:9px;
+      --shadow:0 4px 20px rgba(0,0,0,0.08);
+      --shadowlg:0 16px 56px rgba(0,0,0,0.14);
+    }
+    body{font-family:'Inter',sans-serif;background:var(--offwhite);color:var(--dark);line-height:1.6;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+    input,select,button,textarea{-webkit-appearance:none;border-radius:0}
+
+    /* NAV */
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:999;
+      background:rgba(5,15,7,0.92);backdrop-filter:blur(16px);
+      padding:0 32px;height:62px;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .nav-left{display:flex;align-items:center;gap:10px}
+    .nav-icon{
+      width:36px;height:36px;border-radius:9px;
+      background:linear-gradient(135deg,var(--g1),var(--g2));
+      color:#fff;font-weight:900;font-size:18px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .nav-name{font-weight:800;font-size:16px;color:#fff;letter-spacing:-0.01em}
+    .nav-right{display:flex;align-items:center;gap:22px}
+    .nav-a{color:rgba(255,255,255,0.72);font-size:13px;text-decoration:none;font-weight:500;transition:color .15s}
+    .nav-a:hover{color:var(--y1)}
+    .nav-cta{
+      background:var(--g1);color:#fff;
+      padding:8px 20px;border-radius:8px;
+      font-size:13px;font-weight:700;text-decoration:none;
+      transition:background .15s;
+    }
+    .nav-cta:hover{background:var(--g2)}
+
+    /* HERO SPLIT */
+    .hero{
+      display:grid;
+      grid-template-columns:55% 45%;
+      min-height:100vh;
+      padding-top:62px;
+    }
+    .hero-left{
+      background:linear-gradient(150deg,var(--dark) 0%,var(--dark2) 55%,#003D1A 100%);
+      display:flex;flex-direction:column;justify-content:center;
+      padding:72px 56px;
+      position:relative;overflow:hidden;
+    }
+    .hero-left::before{
+      content:'';position:absolute;top:-100px;right:-100px;
+      width:400px;height:400px;border-radius:50%;
+      background:radial-gradient(circle,rgba(0,200,81,0.16) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .hero-left::after{
+      content:'';position:absolute;bottom:-80px;left:-60px;
+      width:300px;height:300px;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,208,0,0.10) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .hero-pill{
+      display:inline-flex;align-items:center;gap:7px;
+      background:rgba(0,200,81,0.14);
+      border:1px solid rgba(0,200,81,0.32);
+      color:var(--g1);font-size:12px;font-weight:700;
+      padding:5px 16px;border-radius:20px;
+      margin-bottom:26px;width:fit-content;
+      text-transform:uppercase;letter-spacing:.04em;
+    }
+    .hero-h1{
+      font-size:clamp(28px,3.8vw,54px);
+      font-weight:900;color:#fff;
+      line-height:1.07;margin-bottom:20px;
+      letter-spacing:-0.02em;
+    }
+    .hg{color:var(--g1)}
+    .hy{color:var(--y1)}
+    .ho{color:var(--y2)}
+    .hero-p{
+      font-size:clamp(14px,1.5vw,16px);
+      color:rgba(255,255,255,0.68);
+      margin-bottom:38px;line-height:1.75;
+      max-width:440px;
+    }
+    .hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:52px}
+    .btn-main{
+      background:linear-gradient(135deg,var(--g1),var(--g2));
+      color:#fff;padding:14px 30px;border-radius:var(--radsm);
+      font-size:15px;font-weight:800;text-decoration:none;
+      box-shadow:0 6px 24px rgba(0,200,81,0.38);
+      transition:all .18s;display:inline-flex;align-items:center;gap:7px;
+    }
+    .btn-main:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,200,81,0.48)}
+    .btn-out{
+      background:transparent;
+      border:2px solid rgba(255,255,255,0.28);
+      color:#fff;padding:14px 30px;border-radius:var(--radsm);
+      font-size:15px;font-weight:700;text-decoration:none;
+      transition:all .18s;display:inline-flex;align-items:center;gap:7px;
+    }
+    .btn-out:hover{border-color:rgba(255,255,255,0.55);background:rgba(255,255,255,0.08)}
+    .hero-stats{display:flex;gap:36px;flex-wrap:wrap}
+    .hs-num{display:block;font-size:34px;font-weight:900;color:var(--y1);line-height:1}
+    .hs-lbl{font-size:11px;color:rgba(255,255,255,0.50);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+
+    .hero-right{position:relative;overflow:hidden;min-height:500px}
+    .campus-img{
+      width:100%;height:100%;
+      object-fit:cover;object-position:center 30%;
+      display:block;
+      filter:contrast(1.2) saturate(1.9) brightness(1.08);
+      transform:translateZ(0);
+    }
+    .campus-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(
+        to right,
+        rgba(5,15,7,0.65) 0%,
+        rgba(5,15,7,0.25) 45%,
+        transparent 100%
+      );
+    }
+    .campus-badge{
+      position:absolute;bottom:24px;right:20px;
+      background:rgba(5,15,7,0.85);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(0,200,81,0.40);
+      border-radius:12px;padding:13px 18px;
+      color:#fff;font-size:12px;font-weight:600;
+      text-align:center;line-height:1.5;
+    }
+    .campus-badge strong{
+      color:#00C851;font-size:20px;
+      display:block;font-weight:900;margin-bottom:3px;
+    }
+    .campus-badge span{color:rgba(255,255,255,0.70);font-size:11px}
+
+    /* LANG STRIP */
+    .lstrip{
+      background:linear-gradient(90deg,var(--g2),var(--g1),#00D45A,var(--g1),var(--g2));
+      padding:15px 24px;
+      display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
+    }
+    .ls-lbl{color:rgba(255,255,255,0.82);font-size:13px;font-weight:600;margin-right:4px}
+    .ls-chip{
+      background:rgba(255,255,255,0.22);color:#fff;
+      font-size:12px;font-weight:700;
+      padding:5px 15px;border-radius:20px;letter-spacing:.02em;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* TUTOR SECTION */
+    .tsec{max-width:1000px;margin:0 auto;padding:56px 24px}
+    .sec-head{text-align:center;margin-bottom:36px}
+    .sec-tag{
+      display:inline-block;
+      background:linear-gradient(135deg,var(--g1),#009933);
+      color:#fff;font-size:11px;font-weight:800;
+      padding:5px 18px;border-radius:20px;
+      text-transform:uppercase;letter-spacing:.06em;margin-bottom:13px;
+    }
+    .sec-h2{font-size:clamp(22px,3.2vw,38px);font-weight:900;color:var(--dark);margin-bottom:9px;letter-spacing:-0.01em}
+    .sec-sub{font-size:15px;color:var(--gray);max-width:480px;margin:0 auto;line-height:1.6}
 
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    .tcard{background:#fff;border-radius:20px;box-shadow:var(--shadowlg);overflow:hidden}
+    .tcard-top{
+      background:linear-gradient(135deg,#052010 0%,var(--g2) 100%);
+      padding:22px 30px;display:flex;align-items:center;gap:15px;
     }
+    .tcard-ico{
+      width:48px;height:48px;border-radius:12px;
+      background:rgba(255,255,255,0.16);
+      display:flex;align-items:center;justify-content:center;font-size:24px;
+    }
+    .tcard-ttl{font-size:17px;font-weight:800;color:#fff;letter-spacing:-0.01em}
+    .tcard-sub2{font-size:12px;color:rgba(255,255,255,0.60);margin-top:3px}
+    .tcard-body{padding:30px}
 
-    header {
-      background: var(--green);
-      color: #fff;
-      padding: 1rem 1.25rem;
-      text-align: center;
+    /* CONTROLS */
+    .ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px}
+    .clbl{display:block;font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+    .csel{
+      width:100%;padding:11px 13px;
+      border:2px solid #E5E7EB;border-radius:var(--radsm);
+      font-size:16px;font-family:'Inter',sans-serif;
+      color:var(--dark);background:#fff;outline:none;
+      transition:border-color .15s;cursor:pointer;font-weight:500;
     }
-    header h1 { font-size: 1.4rem; letter-spacing: 0.5px; }
-    header p { font-size: 0.9rem; opacity: 0.9; margin-top: 0.2rem; }
+    .csel:focus{border-color:var(--g1)}
 
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
+    /* SUBJECTS */
+    .slbl{font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px}
+    .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:7px;margin-bottom:18px}
+    .sbtn{
+      padding:10px 6px;border-radius:var(--radsm);
+      border:2px solid #E5E7EB;background:#fff;
+      font-size:11px;font-weight:700;font-family:'Inter',sans-serif;
+      color:var(--gray);cursor:pointer;text-align:center;
+      transition:all .15s;line-height:1.35;
     }
+    .sbtn:hover{border-color:var(--g1);color:var(--g1);background:#F0FFF4}
+    .sbtn.on{background:linear-gradient(135deg,var(--g1),var(--g2));border-color:var(--g1);color:#fff;box-shadow:0 3px 12px rgba(0,200,81,0.30)}
+    .sico{display:block;font-size:19px;margin-bottom:3px}
 
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
+    /* SUGGESTIONS */
+    .suggs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:17px}
+    .sugbtn{
+      font-size:12px;padding:6px 14px;border-radius:20px;
+      border:1.5px solid #E5E7EB;background:var(--lgray);
+      color:var(--gray);cursor:pointer;font-family:'Inter',sans-serif;
+      font-weight:600;transition:all .15s;
     }
+    .sugbtn:hover{border-color:var(--g1);color:var(--g1);background:#F0FFF4}
 
-    .msg {
-      max-width: 80%;
-      padding: 0.65rem 0.9rem;
-      border-radius: 14px;
-      line-height: 1.45;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+    /* CHAT */
+    .chatbox{
+      border:2px solid #E5E7EB;border-radius:var(--rad);
+      min-height:300px;max-height:400px;overflow-y:auto;
+      padding:20px;display:flex;flex-direction:column;gap:16px;
+      background:#FAFFFE;margin-bottom:14px;
     }
-    .msg.user {
-      align-self: flex-end;
-      background: var(--user-bubble);
-      color: #fff;
-      border-bottom-right-radius: 4px;
+    .msg{display:flex;gap:11px;align-items:flex-start}
+    .msg.ume{flex-direction:row-reverse}
+    .mav{
+      width:34px;height:34px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;font-size:14px;
     }
-    .msg.bot {
-      align-self: flex-start;
-      background: var(--bot-bubble);
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 4px;
+    .aiv{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff}
+    .usv{background:linear-gradient(135deg,var(--y1),var(--y2));color:var(--dark)}
+    .minner{max-width:80%}
+    .mbadges{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap}
+    .mbadge{font-size:10px;padding:2px 10px;border-radius:10px;font-weight:700}
+    .mbg{background:var(--g1);color:#fff}
+    .mby{background:var(--y1);color:var(--dark)}
+    .mbub{
+      background:#fff;border:1.5px solid #E8E8E8;
+      border-radius:var(--rad);padding:14px 18px;
+      font-size:14px;line-height:1.78;color:var(--dark);
+      white-space:pre-wrap;
     }
-    .msg.bot.pending { color: var(--muted); font-style: italic; }
+    .ume .mbub{background:#F0FFF4;border-color:#86EFAC;color:var(--g2)}
+    .tdots{display:flex;gap:5px;align-items:center;padding:4px 0}
+    .tdots span{
+      width:7px;height:7px;border-radius:50%;background:var(--g1);
+      animation:td 1s infinite;
+    }
+    .tdots span:nth-child(2){animation-delay:.15s}
+    .tdots span:nth-child(3){animation-delay:.3s}
+    @keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
 
-    form {
-      display: flex;
-      gap: 0.5rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border);
+    /* INPUT */
+    .inrow{display:flex;gap:10px}
+    .cinput{
+      flex:1;padding:14px 18px;
+      border:2px solid #E5E7EB;border-radius:var(--rad);
+      font-size:16px;font-family:'Inter',sans-serif;
+      outline:none;transition:border-color .15s;font-weight:500;
     }
-    #input {
-      flex: 1;
-      padding: 0.7rem 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 1rem;
-      outline: none;
+    .cinput:focus{border-color:var(--g1)}
+    .sndbtn{
+      padding:14px 26px;
+      background:linear-gradient(135deg,var(--g1),var(--g2));
+      color:#fff;border:none;border-radius:var(--rad);
+      font-size:14px;font-weight:800;font-family:'Inter',sans-serif;
+      cursor:pointer;display:flex;align-items:center;gap:7px;
+      transition:all .18s;white-space:nowrap;
+      box-shadow:0 4px 16px rgba(0,200,81,0.35);
     }
-    #input:focus { border-color: var(--green); }
-    button {
-      background: var(--green);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 0 1.2rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    button:hover { background: var(--green-dark); }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .sndbtn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,200,81,0.45)}
+    .sndbtn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
 
-    footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      padding: 0.75rem;
+    /* FEATURES */
+    .featsec{background:#fff;padding:76px 24px}
+    .featin{max-width:1000px;margin:0 auto}
+    .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:46px}
+    .fcard{padding:30px;border-radius:var(--rad);border:2px solid #E5E7EB;transition:all .2s}
+    .fcard:hover{border-color:var(--g1);transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,200,81,0.10)}
+    .fico{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:27px;margin-bottom:16px}
+    .fcard h3{font-size:16px;font-weight:800;margin-bottom:7px;color:var(--dark)}
+    .fcard p{font-size:13px;color:var(--gray);line-height:1.65}
+
+    /* UNIVERSITIES */
+    .unisec{background:var(--dark);padding:60px 24px}
+    .uniin{max-width:1000px;margin:0 auto;text-align:center}
+    .uni-h2{font-size:clamp(20px,3vw,32px);font-weight:900;color:#fff;margin-bottom:9px;letter-spacing:-0.01em}
+    .uni-sub{font-size:14px;color:rgba(255,255,255,0.50);margin-bottom:32px}
+    .ugrid{display:flex;flex-wrap:wrap;justify-content:center;gap:9px}
+    .uchip{
+      background:rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.13);
+      color:rgba(255,255,255,0.78);
+      font-size:12px;font-weight:600;
+      padding:7px 16px;border-radius:20px;transition:all .15s;cursor:default;
     }
-  </style>
+    .uchip:hover{background:var(--g1);border-color:var(--g1);color:#fff}
+    .uchip.hot{background:linear-gradient(135deg,var(--g1),var(--g2));border-color:transparent;color:#fff;font-weight:800}
+
+    /* FOOTER */
+    .footer{background:#030A04;padding:48px 24px;text-align:center}
+    .footer-in{max-width:600px;margin:0 auto}
+    .flogo{font-size:22px;font-weight:900;color:#fff;margin-bottom:6px;letter-spacing:-0.01em}
+    .fflag{font-size:24px;margin-bottom:10px}
+    .ftxt{font-size:13px;color:rgba(255,255,255,0.42);margin-bottom:7px}
+    .fcredit{font-size:12px;color:rgba(255,255,255,0.32);margin-bottom:24px}
+    .fcredit a{color:var(--y1);text-decoration:none}
+    .flinks{display:flex;justify-content:center;gap:24px}
+    .flinks a{font-size:13px;color:rgba(255,255,255,0.42);text-decoration:none;font-weight:600;transition:color .15s}
+    .flinks a:hover{color:var(--g1)}
+
+
+    @media(max-width:800px){
+      .hero{
+        display:flex;flex-direction:column;
+        min-height:auto;padding-top:62px;
+      }
+      .hero-right{
+        width:100%;height:55vw;
+        min-height:220px;max-height:300px;
+        order:0;
+      }
+      .campus-img{object-position:center 30%}
+      .hero-left{
+        order:1;
+        padding:30px 18px 36px;
+      }
+      .hero-pill{font-size:11px;padding:4px 12px;margin-bottom:16px}
+      .hero-h1{font-size:26px;margin-bottom:12px;line-height:1.1}
+      .hero-p{font-size:13px;margin-bottom:20px;line-height:1.6}
+      .hero-btns{
+        flex-direction:column;gap:10px;
+        margin-bottom:24px;
+      }
+      .btn-main,.btn-out{
+        width:100%;justify-content:center;
+        padding:13px 20px;font-size:14px;
+      }
+      .hero-stats{gap:18px}
+      .hs-num{font-size:24px}
+      .hs-lbl{font-size:10px}
+      .nav-right .nav-a{display:none}
+      .nav{padding:0 16px}
+      .nav-cta{padding:7px 14px;font-size:12px}
+      .lstrip{padding:11px 14px;gap:6px}
+      .ls-lbl{display:none}
+      .ls-chip{font-size:11px;padding:4px 10px}
+      .tsec{padding:28px 14px}
+      .sec-h2{font-size:20px}
+      .sec-sub{font-size:13px}
+      .tcard-top{padding:14px 16px;gap:10px}
+      .tcard-ico{width:36px;height:36px;font-size:18px}
+      .tcard-ttl{font-size:14px}
+      .tcard-sub2{font-size:11px}
+      .tcard-body{padding:14px}
+      .ctrls{grid-template-columns:1fr;gap:9px;margin-bottom:16px}
+      .csel{padding:12px;font-size:16px}
+      .slbl{margin-bottom:7px}
+      .sgrid{
+        grid-template-columns:repeat(5,1fr);
+        gap:5px;margin-bottom:12px;
+      }
+      .sbtn{padding:7px 3px;font-size:10px}
+      .sico{font-size:15px;margin-bottom:2px}
+      .suggs{
+        flex-wrap:nowrap;overflow-x:auto;
+        padding-bottom:4px;gap:6px;
+        margin-bottom:12px;
+        scrollbar-width:none;
+        -ms-overflow-style:none;
+      }
+      .suggs::-webkit-scrollbar{display:none}
+      .sugbtn{
+        white-space:nowrap;font-size:11px;
+        padding:5px 11px;flex-shrink:0;
+      }
+      .chatbox{
+        min-height:200px;max-height:300px;
+        padding:12px;
+      }
+      .mbub{font-size:13px;padding:10px 13px;line-height:1.65}
+      .mav{width:28px;height:28px;font-size:12px}
+      .minner{max-width:86%}
+      .inrow{gap:8px}
+      .cinput{padding:12px 14px;font-size:16px}
+      .sndbtn{padding:12px 14px;font-size:13px;gap:5px}
+      .featsec{padding:40px 16px}
+      .fgrid{grid-template-columns:1fr;gap:12px;margin-top:24px}
+      .fcard{padding:20px 18px}
+      .fico{width:42px;height:42px;font-size:21px;margin-bottom:10px}
+      .fcard h3{font-size:15px}
+      .fcard p{font-size:13px}
+      .unisec{padding:36px 16px}
+      .uni-h2{font-size:18px}
+      .ugrid{gap:7px}
+      .uchip{font-size:11px;padding:5px 11px}
+      .footer{padding:32px 16px}
+      .flinks{gap:14px}
+    }
+    @media(max-width:390px){
+      .hero-h1{font-size:22px}
+      .sgrid{grid-template-columns:repeat(4,1fr)}
+      .tcard-body{padding:12px}
+      .chatbox{max-height:250px}
+      .sndbtn span{display:none}
+    }
+      </style>
+
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KEVMM8EXJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KEVMM8EXJ');
+    function trackEvent(n, p){ if(typeof gtag!=='undefined') gtag('event', n, p||{}); }
+  </script>
+
+  <!-- UptimeRobot Public Status Page ID - replace YOUR_PSP_ID below -->
+  <script>window.__ur_psid='YOUR_PSP_ID';</script>
+
 </head>
 <body>
-  <header>
-    <h1>NaijaLearn-AI</h1>
-    <p>An AI-powered learning platform</p>
-  </header>
 
-  <main>
-    <div id="messages">
-      <div class="msg bot">Hi! I'm your NaijaLearn-AI tutor. Ask me anything you'd like to learn.</div>
+<nav class="nav">
+  <div class="nav-left">
+    <div class="nav-icon">N</div>
+    <span class="nav-name">NaijaLearn</span>
+  </div>
+  <div class="nav-right">
+    <a href="#tutor" class="nav-a">Start Learning</a>
+    <a href="#features" class="nav-a">Features</a>
+    <a href="#universities" class="nav-a">Universities</a>
+    <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank" class="nav-a">GitHub</a>
+    <a href="#tutor" class="nav-cta">Try Free Now</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-pill">🇳🇬 For Nigerian University Students</div>
+    <h1 class="hero-h1">
+      Learn <span class="hg">STEM</span> and<br>
+      <span class="hy">ICT</span> in<br>
+      <span class="ho">Your Language</span>
+    </h1>
+    <p class="hero-p">
+      Intelligent STEM and ICT tutoring for Nigerian university students delivered in English, Pidgin, Yoruba, Hausa and Igbo. Free for every student at every Nigerian university. Forever.
+    </p>
+    <div class="hero-btns">
+      <a href="#tutor" class="btn-main">🎓 Start Learning Free</a>
+      <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank" class="btn-out">⭐ Star on GitHub</a>
     </div>
+    <div class="hero-stats">
+      <div><span class="hs-num">10</span><span class="hs-lbl">Subjects</span></div>
+      <div><span class="hs-num">5</span><span class="hs-lbl">Languages</span></div>
+      <div><span class="hs-num">250+</span><span class="hs-lbl">Universities</span></div>
+      <div><span class="hs-num">Free</span><span class="hs-lbl">Always</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="campus.jpg" alt="Abia State University Uturu campus" class="campus-img"/>
+    <div class="campus-overlay"></div>
+    <div class="campus-badge">
+      <strong>ABSU</strong>
+      <span>Abia State University, Uturu</span>
+    </div>
+  </div>
+</section>
 
-    <form id="chat-form" autocomplete="off">
-      <input id="input" type="text" placeholder="Type your question…" aria-label="Your message" required />
-      <button id="send" type="submit">Send</button>
-    </form>
-  </main>
+<div class="lstrip">
+  <span class="ls-lbl">Available in:</span>
+  <span class="ls-chip">🇬🇧 English</span>
+  <span class="ls-chip">🇳🇬 Pidgin English</span>
+  <span class="ls-chip">Yorùbá</span>
+  <span class="ls-chip">Hausa</span>
+  <span class="ls-chip">Igbo</span>
+</div>
 
-  <footer>
-    &copy; 2026 Juliet Chinenye Duru
-  </footer>
+<section class="tsec" id="tutor">
+  <div class="sec-head">
+    <div class="sec-tag">Smart Tutor — Free</div>
+    <h2 class="sec-h2">Ask anything. Learn in your language.</h2>
+    <p class="sec-sub">Select your subject, choose your language and level, then ask your question.</p>
+  </div>
+  <div class="tcard">
+    <div class="tcard-top">
+      <div class="tcard-ico">🎓</div>
+      <div>
+        <div class="tcard-ttl">NaijaLearn Tutor</div>
+        <div class="tcard-sub2">STEM and ICT · 5 Languages · 100 Level to Postgraduate</div>
+      </div>
+    </div>
+    <div class="tcard-body">
+      <div class="ctrls">
+        <div>
+          <label class="clbl">Language</label>
+          <select id="lang" class="csel">
+            <option value="English">English</option>
+            <option value="Pidgin English">Pidgin English</option>
+            <option value="Yoruba">Yoruba</option>
+            <option value="Hausa">Hausa</option>
+            <option value="Igbo">Igbo</option>
+          </select>
+        </div>
+        <div>
+          <label class="clbl">Level</label>
+          <select id="level" class="csel">
+            <option value="100 level Year 1">100 Level</option>
+            <option value="200 level Year 2" selected>200 Level</option>
+            <option value="300 level Year 3">300 Level</option>
+            <option value="400 level Final year">400 Level</option>
+            <option value="Postgraduate">Postgraduate</option>
+          </select>
+        </div>
+        <div>
+          <label class="clbl">University</label>
+          <select id="uni" class="csel">
+            <option value="Nigerian university">General</option>
+            <option value="University of Lagos UNILAG">UNILAG</option>
+            <option value="University of Ibadan UI">UI Ibadan</option>
+            <option value="Ahmadu Bello University ABU">ABU Zaria</option>
+            <option value="University of Nigeria Nsukka UNN">UNN</option>
+            <option value="Obafemi Awolowo University OAU">OAU Ile-Ife</option>
+            <option value="University of Benin UNIBEN">UNIBEN</option>
+            <option value="University of Port Harcourt UNIPORT">UNIPORT</option>
+            <option value="University of Ilorin UNILORIN">UNILORIN</option>
+            <option value="Abia State University Uturu">Abia State University</option>
+            <option value="Lagos State University LASU">LASU</option>
+            <option value="Nnamdi Azikiwe University NAU">NAU Awka</option>
+            <option value="Federal University Technology Owerri FUTO">FUTO</option>
+            <option value="Covenant University Ota">Covenant University</option>
+            <option value="Babcock University Ilishan">Babcock University</option>
+            <option value="University of Abuja">UNIABUJA</option>
+            <option value="Kano University Science Technology KUST">KUST Wudil</option>
+            <option value="Bayero University Kano BUK">BUK Kano</option>
+          </select>
+        </div>
+      </div>
 
-  <script type="module">
-    import { initErrorLogger } from "./monitoring/error-logger.js";
-    import { initPerformanceMonitor } from "./monitoring/performance-monitor.js";
-    import { startUptimeMonitor } from "./monitoring/uptime-monitor.js";
-    import { initGoogleAnalytics } from "./analytics/google-analytics.js";
-    import { initEngagementTracker } from "./analytics/engagement-tracker.js";
-    import { trackQuestion } from "./analytics/user-events.js";
+      <div class="slbl">Subject</div>
+      <div class="sgrid" id="sgrid">
+        <button class="sbtn on" data-subj="ICT and Computer Science"><span class="sico">💻</span>ICT</button>
+        <button class="sbtn" data-subj="Programming Python Java C++ Web Development"><span class="sico">⌨️</span>Programming</button>
+        <button class="sbtn" data-subj="Data Science and Machine Learning"><span class="sico">📊</span>Data Science</button>
+        <button class="sbtn" data-subj="Mathematics and Statistics"><span class="sico">➗</span>Mathematics</button>
+        <button class="sbtn" data-subj="Physics"><span class="sico">⚡</span>Physics</button>
+        <button class="sbtn" data-subj="Chemistry"><span class="sico">🧪</span>Chemistry</button>
+        <button class="sbtn" data-subj="Biology"><span class="sico">🧬</span>Biology</button>
+        <button class="sbtn" data-subj="Engineering Electrical Mechanical Civil"><span class="sico">⚙️</span>Engineering</button>
+        <button class="sbtn" data-subj="Economics and Accounting"><span class="sico">📈</span>Economics</button>
+        <button class="sbtn" data-subj="Research Methodology and Academic Writing"><span class="sico">📝</span>Research</button>
+      </div>
 
-    // --- Monitoring & analytics setup ---
-    // Set your GA4 measurement ID (e.g. "G-XXXXXXXXXX"). Leave blank to disable.
-    const GA_MEASUREMENT_ID = "";
+      <div class="suggs" id="suggrow">
+        <button class="sugbtn" onclick="fi('What is object-oriented programming?')">What is OOP?</button>
+        <button class="sugbtn" onclick="fi('Explain database normalization simply')">Database normalization</button>
+        <button class="sugbtn" onclick="fi('How does TCP/IP work?')">How TCP/IP works</button>
+        <button class="sugbtn" onclick="fi('Give me an ICT quiz question')">Give me a quiz</button>
+      </div>
 
-    initErrorLogger();
-    initPerformanceMonitor();
-    startUptimeMonitor();
-    initGoogleAnalytics(GA_MEASUREMENT_ID);
-    initEngagementTracker();
+      <div class="chatbox" id="chatbox">
+        <div class="msg">
+          <div class="mav aiv">N</div>
+          <div class="minner">
+            <div class="mbadges">
+              <span class="mbadge mbg">English</span>
+              <span class="mbadge mby">200 Level</span>
+            </div>
+            <div class="mbub">Welcome to NaijaLearn! I am your personal STEM and ICT tutor for Nigerian university students. I can teach you in English, Pidgin, Yoruba, Hausa or Igbo at your exact academic level. Select your subject above and ask me anything — I can explain concepts, solve problems step by step, write code, and give you practice quizzes. What would you like to study today? 🎓</div>
+          </div>
+        </div>
+      </div>
 
-    // --- Chat ---
-    const messagesEl = document.getElementById("messages");
-    const form = document.getElementById("chat-form");
-    const input = document.getElementById("input");
-    const sendBtn = document.getElementById("send");
+      <div class="inrow">
+        <input type="text" id="userinput" class="cinput" placeholder="Ask your question in any language..."/>
+        <button class="sndbtn" id="sndbtn" onclick="send()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span>Ask</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
 
-    // Anthropic-format conversation turns: { role: "user" | "assistant", content }
-    const messages = [];
+<section class="featsec" id="features">
+  <div class="featin">
+    <div class="sec-head">
+      <div class="sec-tag">Why NaijaLearn</div>
+      <h2 class="sec-h2">Built specifically for Nigerian students</h2>
+      <p class="sec-sub">Every feature designed around how Nigerian university students actually learn</p>
+    </div>
+    <div class="fgrid">
+      <div class="fcard">
+        <div class="fico" style="background:#F0FFF4">🌍</div>
+        <h3>Your language first</h3>
+        <p>Study in English, Pidgin, Yoruba, Hausa or Igbo. Real understanding comes before anything else.</p>
+      </div>
+      <div class="fcard">
+        <div class="fico" style="background:#FFFBEB">🎓</div>
+        <h3>Adapts to your level</h3>
+        <p>100 level gets simple foundations. 400 level gets advanced depth. Postgraduate gets full research detail.</p>
+      </div>
+      <div class="fcard">
+        <div class="fico" style="background:#EFF6FF">🏫</div>
+        <h3>Nigerian university context</h3>
+        <p>Uses examples from UNILAG, UI, ABU, UNN, OAU, Abia State and all 250+ NUC accredited universities.</p>
+      </div>
+      <div class="fcard">
+        <div class="fico" style="background:#FFF0F3">📚</div>
+        <h3>10 STEM and ICT subjects</h3>
+        <p>ICT, Programming, Data Science, Maths, Physics, Chemistry, Biology, Engineering and more.</p>
+      </div>
+      <div class="fcard">
+        <div class="fico" style="background:#F0FFF4">✅</div>
+        <h3>Practice quizzes</h3>
+        <p>Test yourself with exam-style questions. Get instant detailed feedback and full explanations.</p>
+      </div>
+      <div class="fcard">
+        <div class="fico" style="background:#FFFBEB">💰</div>
+        <h3>Free forever</h3>
+        <p>No subscription. No payment. No registration required. Free for every Nigerian student always.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    const SYSTEM_PROMPT =
-      "You are NaijaLearn-AI, a friendly and encouraging tutor for learners in " +
-      "Nigeria and across Africa. Explain concepts clearly and simply, use " +
-      "relatable local examples where helpful, and keep answers concise.";
+<section class="unisec" id="universities">
+  <div class="uniin">
+    <h2 class="uni-h2">For students at all 250+ Nigerian universities</h2>
+    <p class="uni-sub">NaijaLearn serves every NUC accredited university across all six geopolitical zones of Nigeria</p>
+    <div class="ugrid">
+      <span class="uchip hot">UNILAG</span>
+      <span class="uchip hot">UI Ibadan</span>
+      <span class="uchip hot">ABU Zaria</span>
+      <span class="uchip hot">UNN</span>
+      <span class="uchip hot">OAU Ile-Ife</span>
+      <span class="uchip hot">UNIBEN</span>
+      <span class="uchip hot">UNIPORT</span>
+      <span class="uchip hot">UNILORIN</span>
+      <span class="uchip hot">Abia State University</span>
+      <span class="uchip hot">LASU</span>
+      <span class="uchip">NAU Awka</span>
+      <span class="uchip">FUTO Owerri</span>
+      <span class="uchip">Covenant University</span>
+      <span class="uchip">Babcock University</span>
+      <span class="uchip">UNICAL Calabar</span>
+      <span class="uchip">UNIMAID</span>
+      <span class="uchip">UNIJOS</span>
+      <span class="uchip">UNIUYO</span>
+      <span class="uchip">FUNAAB Abeokuta</span>
+      <span class="uchip">LAUTECH Ogbomoso</span>
+      <span class="uchip">BUK Kano</span>
+      <span class="uchip">KUST Wudil</span>
+      <span class="uchip">Baze University</span>
+      <span class="uchip">Pan-Atlantic University</span>
+      <span class="uchip">Redeemer's University</span>
+      <span class="uchip">Afe Babalola University</span>
+      <span class="uchip">NOUN Abuja</span>
+      <span class="uchip">American University Nigeria</span>
+      <span class="uchip">UNIABUJA</span>
+      <span class="uchip hot">224 more universities</span>
+    </div>
+  </div>
+</section>
 
-    function addMessage(role, text, pending = false) {
-      const el = document.createElement("div");
-      el.className = "msg " + (role === "user" ? "user" : "bot") + (pending ? " pending" : "");
-      el.textContent = text;
-      messagesEl.appendChild(el);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-      return el;
-    }
+<footer class="footer">
+  <div class="footer-in">
+    <div class="fflag">🇳🇬</div>
+    <div class="flogo">NaijaLearn</div>
+    <p class="ftxt">Built for Nigerian students. Delivered in your language.</p>
+    <p class="fcredit">Built by <a href="https://github.com/JulietChinenyeDuru" target="_blank">Juliet Chinenye Duru</a> — Academic Researcher and ICT Lecturer, Abia State University, Nigeria</p>
+    <div class="flinks">
+      <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank">GitHub</a>
+      <a href="https://www.nuc.edu.ng" target="_blank">NUC Nigeria</a>
+    </div>
+  </div>
+</footer>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const message = input.value.trim();
-      if (!message) return;
+<script>
+const SUGG={
+  'ICT and Computer Science':['What is object-oriented programming?','Explain database normalization','How does TCP/IP work?','Give me an ICT quiz'],
+  'Programming Python Java C++ Web Development':['Explain recursion with an example','Python vs Java differences','Write a simple Python function','Give me a coding quiz'],
+  'Data Science and Machine Learning':['What is machine learning?','Supervised vs unsupervised learning','What is a neural network?','Give me a data science quiz'],
+  'Mathematics and Statistics':['Explain differentiation step by step','What is hypothesis testing?','Solve quadratic equations','Give me a maths quiz'],
+  'Physics':["Newton's three laws of motion","What is Ohm's law?",'Electromagnetic induction explained','Give me a physics quiz'],
+  'Chemistry':['Covalent vs ionic bonding','What is titration?','How does electrolysis work?','Give me a chemistry quiz'],
+  'Biology':['Explain DNA replication','What is osmosis?','How does photosynthesis work?','Give me a biology quiz'],
+  'Engineering Electrical Mechanical Civil':["Kirchhoff's laws explained",'Stress and strain in materials','How does a transistor work?','Give me an engineering quiz'],
+  'Economics and Accounting':['Explain supply and demand','What is GDP?','Inflation in Nigeria explained','Give me an economics quiz'],
+  'Research Methodology and Academic Writing':['How to write a research proposal','Qualitative vs quantitative research','How to write a literature review','Give me a research methods quiz']
+};
 
-      addMessage("user", message);
-      messages.push({ role: "user", content: message });
-      trackQuestion(message.slice(0, 80));
-      input.value = "";
-      sendBtn.disabled = true;
+let asubj='ICT and Computer Science';
+let hist=[];
 
-      const pendingEl = addMessage("bot", "Thinking…", true);
+document.querySelectorAll('.sbtn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.sbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    asubj=b.dataset.subj;
+    hist=[];
+    trackEvent('subject_selected', { subject: asubj });
+    const s=SUGG[asubj]||[];
+    document.getElementById('suggrow').innerHTML=s.map(t=>`<button class="sugbtn" onclick="fi('${t.replace(/'/g,"\\'")}' )">${t}</button>`).join('');
+  });
+});
 
-      try {
-        const res = await fetch("/.netlify/functions/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ system: SYSTEM_PROMPT, messages }),
-        });
+document.getElementById('userinput').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
 
-        const data = await res.json();
-        const reply = data?.content?.[0]?.text;
-        if (!res.ok || !reply) throw new Error(reply || "Request failed");
+function fi(t){document.getElementById('userinput').value=t;document.getElementById('userinput').focus();}
 
-        pendingEl.classList.remove("pending");
-        pendingEl.textContent = reply;
-        messages.push({ role: "assistant", content: reply });
-      } catch (err) {
-        pendingEl.classList.remove("pending");
-        pendingEl.textContent = "Sorry, something went wrong: " + err.message;
-      } finally {
-        sendBtn.disabled = false;
-        input.focus();
-      }
+function esc(t){
+  return t
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/\n/g,'<br>');
+}
+
+function addMsg(role,text,lang,level){
+  const box=document.getElementById('chatbox');
+  const d=document.createElement('div');
+  d.className='msg'+(role==='user'?' ume':'');
+  const av=role==='user'
+    ?'<div class="mav usv">U</div>'
+    :'<div class="mav aiv">N</div>';
+  const badges=role!=='user'
+    ?`<div class="mbadges"><span class="mbadge mbg">${lang}</span><span class="mbadge mby">${level.split(' ').slice(0,2).join(' ')}</span></div>`
+    :'';
+  d.innerHTML=`${av}<div class="minner">${badges}<div class="mbub">${esc(text)}</div></div>`;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+
+function showTyping(){
+  const box=document.getElementById('chatbox');
+  const d=document.createElement('div');
+  d.className='msg';d.id='typing';
+  d.innerHTML='<div class="mav aiv">N</div><div class="minner"><div class="mbub"><div class="tdots"><span></span><span></span><span></span></div></div></div>';
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+function rmTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+
+async function send(){
+  const inp=document.getElementById('userinput');
+  const btn=document.getElementById('sndbtn');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  const lang=document.getElementById('lang').value;
+  const level=document.getElementById('level').value;
+  const uni=document.getElementById('uni').value;
+  addMsg('user',txt,lang,level);
+  inp.value='';btn.disabled=true;
+  hist.push({role:'user',content:txt});
+  showTyping();
+
+  // Track question asked — Google Analytics event
+  trackEvent('question_asked', {
+    subject: asubj,
+    language: lang,
+    level: level,
+    university: uni
+  });
+
+  const sys=`You are NaijaLearn, an expert academic tutor for Nigerian university students. The student is at ${level} studying ${asubj} at ${uni}. Respond fully in ${lang}. If Pidgin use natural warm Nigerian Pidgin. If Yoruba, Hausa or Igbo respond fully in that language. Adapt complexity to level: 100 level gets clear foundations, 400 level gets advanced depth, Postgraduate gets research level detail. Always use Nigerian examples and everyday context. Show full step by step working for maths and science problems. Provide actual working code for programming questions. Use Nigerian analogies to make concepts relatable. Give one quiz question at a time when asked, wait for answer, then give feedback. End every response with a short warm encouraging phrase in ${lang}.`;
+
+  try{
+    const res=await fetch('/.netlify/functions/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({system:sys,messages:hist})
     });
-  </script>
+    const data=await res.json();
+    rmTyping();
+    const reply=data.content?.[0]?.text||'Sorry, something went wrong. Please try again!';
+    hist.push({role:'assistant',content:reply});
+    addMsg('assistant',reply,lang,level);
+    trackEvent('answer_received', { subject: asubj, language: lang });
+  }catch(e){
+    rmTyping();
+    addMsg('assistant','Network error. Please check your connection and try again.',lang,level);
+    hist.pop();
+  }
+  btn.disabled=false;
+  inp.focus();
+}
+</script>
 </body>
 </html>
