@@ -1,0 +1,16 @@
+{
+  "name": "naijalearn-ai",
+  "version": "0.1.0",
+  "description": "An AI-powered learning platform for Nigeria and Africa.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo \"No build step\" && exit 0"
+  },
+  "author": "Juliet Chinenye Duru",
+  "license": "MIT",
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}
