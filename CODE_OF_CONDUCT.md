@@ -2,7 +2,7 @@
 
 ## Our Commitment
 
-NaijaLearn AI is built for Nigerian students and the Nigerian academic community. We are committed to maintaining a welcoming, respectful and inclusive environment for everyone who contributes to or uses this project — regardless of university, state, tribe, language, gender, religion or background.
+NaijaLearn AI is built for Nigerian students and the Nigerian academic community. We are committed to maintaining a welcoming, respectful and inclusive environment for everyone who contributes to or uses this project  regardless of university, state, tribe, language, gender, religion or background.
 
 ---
 
@@ -20,7 +20,7 @@ NaijaLearn AI is built for Nigerian students and the Nigerian academic community
 
 - Disrespectful or insulting language toward any person
 - Discrimination based on tribe, state, religion, gender or background
-- Harassment of any kind — public or private
+- Harassment of any kind  public or private
 - Sharing other people's personal information without consent
 - Any behaviour that would make contributors or users feel unwelcome
 
@@ -30,7 +30,7 @@ NaijaLearn AI is built for Nigerian students and the Nigerian academic community
 
 This project is rooted in Nigerian culture and the spirit of community — Ubuntu, "I am because we are." We expect all contributors to bring that spirit of mutual support and respect to every interaction.
 
-We celebrate the rich diversity of Nigeria — all 36 states, all languages, all backgrounds — and this project is for every Nigerian student equally.
+We celebrate the rich diversity of Nigeria all 36 states, all languages, all backgrounds and this project is for every Nigerian student equally.
 
 ---
 
