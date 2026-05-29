@@ -134,7 +134,25 @@
     &copy; 2026 Juliet Chinenye Duru
   </footer>
 
-  <script>
+  <script type="module">
+    import { initErrorLogger } from "./monitoring/error-logger.js";
+    import { initPerformanceMonitor } from "./monitoring/performance-monitor.js";
+    import { startUptimeMonitor } from "./monitoring/uptime-monitor.js";
+    import { initGoogleAnalytics } from "./analytics/google-analytics.js";
+    import { initEngagementTracker } from "./analytics/engagement-tracker.js";
+    import { trackQuestion } from "./analytics/user-events.js";
+
+    // --- Monitoring & analytics setup ---
+    // Set your GA4 measurement ID (e.g. "G-XXXXXXXXXX"). Leave blank to disable.
+    const GA_MEASUREMENT_ID = "";
+
+    initErrorLogger();
+    initPerformanceMonitor();
+    startUptimeMonitor();
+    initGoogleAnalytics(GA_MEASUREMENT_ID);
+    initEngagementTracker();
+
+    // --- Chat ---
     const messagesEl = document.getElementById("messages");
     const form = document.getElementById("chat-form");
     const input = document.getElementById("input");
@@ -164,6 +182,7 @@
 
       addMessage("user", message);
       messages.push({ role: "user", content: message });
+      trackQuestion(message.slice(0, 80));
       input.value = "";
       sendBtn.disabled = true;
 
