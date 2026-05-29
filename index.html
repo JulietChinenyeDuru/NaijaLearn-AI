@@ -424,6 +424,33 @@
       .chatbox{max-height:250px}
       .sndbtn span{display:none}
     }
+
+    /* CONTACT */
+    .contactsec{padding:72px 24px;background:linear-gradient(160deg,#F5FFF7 0%,#E6FBED 100%)}
+    .contactin{max-width:820px;margin:0 auto}
+    .cwrap{display:grid;grid-template-columns:1fr 1.15fr;gap:22px;margin-top:36px}
+    .cinfo{background:linear-gradient(150deg,var(--dark) 0%,#003D1A 100%);border-radius:20px;padding:30px;color:#fff}
+    .cinfo h3{font-size:18px;font-weight:800;margin-bottom:6px}
+    .cinfo .crole{font-size:13px;color:rgba(255,255,255,0.62);margin-bottom:22px;line-height:1.55}
+    .crow{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+    .cicon{width:38px;height:38px;border-radius:10px;background:rgba(0,200,81,0.18);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .crow a,.crow span{font-size:13px;color:rgba(255,255,255,0.85);text-decoration:none;word-break:break-word}
+    .crow a:hover{color:var(--g1)}
+    .cformcard{background:#fff;border-radius:20px;box-shadow:var(--shadowlg);padding:30px}
+    .cform{display:flex;flex-direction:column;gap:14px}
+    .cform label{font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:-8px}
+    .cform input,.cform textarea{width:100%;padding:13px 15px;border:2px solid #E5E7EB;border-radius:var(--radsm);font-size:16px;font-family:'Inter',sans-serif;color:var(--dark);outline:none;transition:border-color .15s;resize:vertical}
+    .cform input:focus,.cform textarea:focus{border-color:var(--g1)}
+    .cform button{margin-top:6px;padding:14px;border:none;border-radius:var(--rad);background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(0,200,81,0.35);transition:all .18s}
+    .cform button:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,200,81,0.45)}
+    @media(max-width:800px){
+      .contactsec{padding:40px 16px}
+      .cwrap{grid-template-columns:1fr;gap:14px;margin-top:24px}
+      .cinfo,.cformcard{padding:20px 18px}
+      .cinfo h3{font-size:16px}
+      .crow{margin-bottom:13px}
+      .cform input,.cform textarea{padding:12px 14px;font-size:16px}
+    }
       </style>
 
   <!-- Google Analytics GA4 -->
@@ -451,6 +478,7 @@
     <a href="#tutor" class="nav-a">Start Learning</a>
     <a href="#features" class="nav-a">Features</a>
     <a href="#universities" class="nav-a">Universities</a>
+    <a href="#contact" class="nav-a">Contact</a>
     <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank" class="nav-a">GitHub</a>
     <a href="#tutor" class="nav-cta">Try Free Now</a>
   </div>
@@ -684,6 +712,39 @@
   </div>
 </section>
 
+<section class="contactsec" id="contact">
+  <div class="contactin">
+    <div class="sec-head">
+      <div class="sec-tag">Get in Touch</div>
+      <h2 class="sec-h2">Contact NaijaLearn-AI</h2>
+      <p class="sec-sub">Questions, feedback or collaboration ideas? Reach out — we would love to hear from Nigerian students and educators.</p>
+    </div>
+    <div class="cwrap">
+      <div class="cinfo">
+        <h3>Juliet Chinenye Duru</h3>
+        <p class="crole">Academic Researcher and ICT Lecturer<br>Abia State University, Uturu, Nigeria</p>
+        <div class="crow"><div class="cicon">💼</div><a href="https://www.linkedin.com/in/durujulietchinenye/" target="_blank">linkedin.com/in/durujulietchinenye</a></div>
+        <div class="crow"><div class="cicon">💻</div><a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank">github.com/JulietChinenyeDuru</a></div>
+        <div class="crow"><div class="cicon">📧</div><a href="mailto:durujulietchinenye@gmail.com">durujulietchinenye@gmail.com</a></div>
+        <div class="crow"><div class="cicon">🏫</div><span>Abia State University, Uturu, Abia State</span></div>
+      </div>
+      <div class="cformcard">
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="cform">
+          <input type="hidden" name="form-name" value="contact"/>
+          <p hidden><label>Do not fill this field: <input name="bot-field"/></label></p>
+          <label for="cname">Your Name</label>
+          <input type="text" id="cname" name="name" placeholder="Enter your name" required/>
+          <label for="cemail">Your Email</label>
+          <input type="email" id="cemail" name="email" placeholder="Enter your email" required/>
+          <label for="cmsg">Message</label>
+          <textarea id="cmsg" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <div class="footer-in">
     <div class="fflag">🇳🇬</div>
@@ -691,6 +752,7 @@
     <p class="ftxt">Built for Nigerian students. Delivered in your language.</p>
     <p class="fcredit">Built by <a href="https://github.com/JulietChinenyeDuru" target="_blank">Juliet Chinenye Duru</a> — Academic Researcher and ICT Lecturer, Abia State University, Nigeria</p>
     <div class="flinks">
+      <a href="#contact">Contact</a>
       <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank">GitHub</a>
       <a href="https://www.nuc.edu.ng" target="_blank">NUC Nigeria</a>
     </div>
