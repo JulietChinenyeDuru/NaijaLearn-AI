@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-  <title>NaijaLearn — Multilingual STEM and ICT Tutor for Nigerian University Students</title>
+  <title>NaijaLearn-AI — Multilingual STEM and ICT Tutor for Nigerian University Students</title>
   <meta name="description" content="Free STEM and ICT tutoring for Nigerian university students in English, Pidgin, Yoruba, Hausa and Igbo"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -445,7 +445,7 @@
 <nav class="nav">
   <div class="nav-left">
     <div class="nav-icon">N</div>
-    <span class="nav-name">NaijaLearn</span>
+    <span class="nav-name">NaijaLearn-AI</span>
   </div>
   <div class="nav-right">
     <a href="#tutor" class="nav-a">Start Learning</a>
@@ -507,7 +507,7 @@
     <div class="tcard-top">
       <div class="tcard-ico">🎓</div>
       <div>
-        <div class="tcard-ttl">NaijaLearn Tutor</div>
+        <div class="tcard-ttl">NaijaLearn-AI Tutor</div>
         <div class="tcard-sub2">STEM and ICT · 5 Languages · 100 Level to Postgraduate</div>
       </div>
     </div>
@@ -587,7 +587,7 @@
               <span class="mbadge mbg">English</span>
               <span class="mbadge mby">200 Level</span>
             </div>
-            <div class="mbub">Welcome to NaijaLearn! I am your personal STEM and ICT tutor for Nigerian university students. I can teach you in English, Pidgin, Yoruba, Hausa or Igbo at your exact academic level. Select your subject above and ask me anything — I can explain concepts, solve problems step by step, write code, and give you practice quizzes. What would you like to study today? 🎓</div>
+            <div class="mbub">Welcome to NaijaLearn-AI! I am your personal STEM and ICT tutor for Nigerian university students. I can teach you in English, Pidgin, Yoruba, Hausa or Igbo at your exact academic level. Select your subject above and ask me anything — I can explain concepts, solve problems step by step, write code, and give you practice quizzes. What would you like to study today? 🎓</div>
           </div>
         </div>
       </div>
@@ -606,7 +606,7 @@
 <section class="featsec" id="features">
   <div class="featin">
     <div class="sec-head">
-      <div class="sec-tag">Why NaijaLearn</div>
+      <div class="sec-tag">Why NaijaLearn-AI</div>
       <h2 class="sec-h2">Built specifically for Nigerian students</h2>
       <p class="sec-sub">Every feature designed around how Nigerian university students actually learn</p>
     </div>
@@ -648,7 +648,7 @@
 <section class="unisec" id="universities">
   <div class="uniin">
     <h2 class="uni-h2">For students at all 250+ Nigerian universities</h2>
-    <p class="uni-sub">NaijaLearn serves every NUC accredited university across all six geopolitical zones of Nigeria</p>
+    <p class="uni-sub">NaijaLearn-AI serves every NUC accredited university across all six geopolitical zones of Nigeria</p>
     <div class="ugrid">
       <span class="uchip hot">UNILAG</span>
       <span class="uchip hot">UI Ibadan</span>
@@ -687,7 +687,7 @@
 <footer class="footer">
   <div class="footer-in">
     <div class="fflag">🇳🇬</div>
-    <div class="flogo">NaijaLearn</div>
+    <div class="flogo">NaijaLearn-AI</div>
     <p class="ftxt">Built for Nigerian students. Delivered in your language.</p>
     <p class="fcredit">Built by <a href="https://github.com/JulietChinenyeDuru" target="_blank">Juliet Chinenye Duru</a> — Academic Researcher and ICT Lecturer, Abia State University, Nigeria</p>
     <div class="flinks">
@@ -784,7 +784,7 @@ async function send(){
     university: uni
   });
 
-  const sys=`You are NaijaLearn, an expert academic tutor for Nigerian university students. The student is at ${level} studying ${asubj} at ${uni}. Respond fully in ${lang}. If Pidgin use natural warm Nigerian Pidgin. If Yoruba, Hausa or Igbo respond fully in that language. Adapt complexity to level: 100 level gets clear foundations, 400 level gets advanced depth, Postgraduate gets research level detail. Always use Nigerian examples and everyday context. Show full step by step working for maths and science problems. Provide actual working code for programming questions. Use Nigerian analogies to make concepts relatable. Give one quiz question at a time when asked, wait for answer, then give feedback. End every response with a short warm encouraging phrase in ${lang}.`;
+  const sys=`You are NaijaLearn-AI, an expert academic tutor for Nigerian university students. The student is at ${level} studying ${asubj} at ${uni}. Respond fully in ${lang}. If Pidgin use natural warm Nigerian Pidgin. If Yoruba, Hausa or Igbo respond fully in that language. Adapt complexity to level: 100 level gets clear foundations, 400 level gets advanced depth, Postgraduate gets research level detail. Always use Nigerian examples and everyday context. Show full step by step working for maths and science problems. Provide actual working code for programming questions. Use Nigerian analogies to make concepts relatable. Give one quiz question at a time when asked, wait for answer, then give feedback. End every response with a short warm encouraging phrase in ${lang}.`;
 
   try{
     const res=await fetch('/.netlify/functions/chat',{

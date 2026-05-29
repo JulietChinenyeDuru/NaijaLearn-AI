@@ -2,7 +2,7 @@
 
 ## Our Commitment
 
-NaijaLearn AI is built for Nigerian students and the Nigerian academic community. We are committed to maintaining a welcoming, respectful and inclusive environment for everyone who contributes to or uses this project  regardless of university, state, tribe, language, gender, religion or background.
+NaijaLearn-AI is built for Nigerian students and the Nigerian academic community. We are committed to maintaining a welcoming, respectful and inclusive environment for everyone who contributes to or uses this project  regardless of university, state, tribe, language, gender, religion or background.
 
 ---
 

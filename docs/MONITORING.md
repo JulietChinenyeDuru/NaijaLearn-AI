@@ -1,6 +1,6 @@
 # Monitoring System
 
-NaijaLearn AI includes:
+NaijaLearn-AI includes:
 
 - Error logging
 - Performance monitoring

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to NaijaLearn AI are documented here.
+All notable changes to NaijaLearn-AI are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
@@ -80,4 +80,4 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Migration to AWS Lambda and CloudFront
 - Integration with Nigerian university LMS platforms
 - Peer tutoring community features
-- NaijaLearn DevOps — dedicated DevOps training module
+- NaijaLearn-AI DevOps — dedicated DevOps training module

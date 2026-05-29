@@ -1,6 +1,6 @@
-# Contributing to NaijaLearn AI
+# Contributing to NaijaLearn-AI
 
-Thank you for your interest in contributing to NaijaLearn AI. This project exists to make quality STEM and ICT education accessible to every Nigerian university student in their own language. Every contribution — however small — helps achieve that mission.
+Thank you for your interest in contributing to NaijaLearn-AI. This project exists to make quality STEM and ICT education accessible to every Nigerian university student in their own language. Every contribution — however small — helps achieve that mission.
 
 ---
 
@@ -31,7 +31,7 @@ Thank you for your interest in contributing to NaijaLearn AI. This project exist
 
 ### For Researchers
 
-- Cite NaijaLearn AI in your research
+- Cite NaijaLearn-AI in your research
 - Share usage data or findings
 - Suggest research collaborations
 
@@ -171,6 +171,6 @@ Open a GitHub Discussion or contact the author directly through GitHub.
 
 ## Recognition
 
-All contributors are credited in the project. Significant contributors may be acknowledged in research publications related to NaijaLearn AI.
+All contributors are credited in the project. Significant contributors may be acknowledged in research publications related to NaijaLearn-AI.
 
 Thank you for helping Nigerian students learn in their own language.

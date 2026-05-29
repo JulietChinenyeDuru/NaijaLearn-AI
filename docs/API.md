@@ -1,4 +1,4 @@
-# NaijaLearn API Documentation
+# NaijaLearn-AI API Documentation
 
 Endpoint:
 

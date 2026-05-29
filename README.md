@@ -1,10 +1,10 @@
-# NaijaLearn AI
+# NaijaLearn-AI
 
 ---
 
 # Social Impact
 
-NaijaLearn AI contributes to:
+NaijaLearn-AI contributes to:
 
 - Educational inclusion
 - AI accessibility in Africa
@@ -23,7 +23,7 @@ The project aligns with several United Nations Sustainable Development Goals (SD
 
 # Innovation and Global Talent Visa Relevance
 
-NaijaLearn AI demonstrates innovation in:
+NaijaLearn-AI demonstrates innovation in:
 
 - AI-assisted education technology
 - Multilingual educational systems

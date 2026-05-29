@@ -1,6 +1,6 @@
 # Google Analytics Integration
 
-NaijaLearn AI uses Google Analytics to monitor:
+NaijaLearn-AI uses Google Analytics to monitor:
 
 - User engagement
 - Traffic sources
