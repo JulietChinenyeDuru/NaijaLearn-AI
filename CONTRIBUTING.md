@@ -1,6 +1,6 @@
 # Contributing to NaijaLearn-AI
 
-Thank you for your interest in contributing to NaijaLearn-AI. This project exists to make quality STEM and ICT education accessible to every Nigerian university student in their own language. Every contribution — however small — helps achieve that mission.
+Thank you for your interest in contributing to NaijaLearn-AI. This project exists to make quality STEM and ICT education accessible to every Nigerian university student in their own language. Every contribution however small helps achieve that mission.
 
 ---
 
@@ -46,7 +46,7 @@ Click the Fork button at the top right of the GitHub page.
 ### 2. Clone Your Fork
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/NaijaLearn-AI.git
+git clone https//github.com/JulietChinenyeDuru/NaijaLearn-AI
 cd NaijaLearn-AI
 ```
 
