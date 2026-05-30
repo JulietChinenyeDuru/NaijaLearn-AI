@@ -443,7 +443,10 @@
     .formmsg{font-size:13px;font-weight:600;margin-top:2px;min-height:18px}
     .formmsg.ok{color:var(--g2)}
     .formmsg.err{color:#D33}
-    .wallhead{text-align:center;margin-top:48px;margin-bottom:20px}
+    .seebtn-wrap{text-align:center;margin-top:36px}
+    .seebtn{padding:13px 32px;border:2px solid var(--g1);background:#fff;color:var(--g2);border-radius:var(--rad);font-size:15px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;transition:all .18s}
+    .seebtn:hover{background:var(--g1);color:#fff;box-shadow:0 6px 20px rgba(0,200,81,0.3)}
+    .wallhead{text-align:center;margin-top:30px;margin-bottom:20px}
     .wallhead .avg{font-size:42px;font-weight:900;color:var(--dark);line-height:1}
     .wallhead .avgstars{color:var(--y1);font-size:20px;letter-spacing:3px;margin:6px 0 2px}
     .wallhead .avgstars .off{color:#E2E5EA}
@@ -760,8 +763,13 @@
       </form>
     </div>
 
-    <div class="wallhead" id="wallhead"></div>
-    <div class="wall" id="wall"><p class="wallempty">Loading reviews…</p></div>
+    <div class="seebtn-wrap">
+      <button type="button" class="seebtn" id="togglereviews">⭐ See Reviews</button>
+    </div>
+    <div id="reviewsBox" style="display:none">
+      <div class="wallhead" id="wallhead"></div>
+      <div class="wall" id="wall"><p class="wallempty">Loading reviews…</p></div>
+    </div>
   </div>
 </section>
 
@@ -901,6 +909,8 @@ async function send(){
   const msg=document.getElementById('formmsg');
   const wall=document.getElementById('wall');
   const wallhead=document.getElementById('wallhead');
+  const toggle=document.getElementById('togglereviews');
+  const box=document.getElementById('reviewsBox');
   const uni=document.getElementById('runi');
   const comment=document.getElementById('rcomment');
   const labels={1:'Poor',2:'Fair',3:'Good',4:'Very good',5:'Excellent'};
@@ -956,6 +966,7 @@ async function send(){
       const data=await res.json();
       current=data.reviews||[];
       render();
+      updateToggle();
     }catch(e){
       wall.innerHTML='<p class="wallempty">Could not load reviews right now.</p>';
     }
@@ -976,11 +987,22 @@ async function send(){
       if(!res.ok||data.error){throw new Error(data.error||'failed');}
       msg.className='formmsg ok';msg.textContent='Thank you! Your review is now on the wall. 🎉';
       form.reset();val.value='';paint(0);hint.style.color='';hint.textContent='Tap the stars to rate';
+      box.style.display='block';
       if(data.review){current.unshift(data.review);render();}
+      updateToggle();
     }catch(err){
       msg.className='formmsg err';msg.textContent='Sorry, we could not post your review. Please try again.';
     }
     btn.disabled=false;
+  });
+
+  function updateToggle(){
+    const n=current.length;
+    toggle.textContent = box.style.display==='none' ? ('⭐ See Reviews'+(n?' ('+n+')':'')) : 'Hide Reviews';
+  }
+  toggle.addEventListener('click',function(){
+    box.style.display = box.style.display==='none' ? 'block' : 'none';
+    updateToggle();
   });
 
   load();
