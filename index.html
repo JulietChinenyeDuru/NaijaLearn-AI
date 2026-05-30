@@ -1010,19 +1010,30 @@ async function send(){
   load();
 })();
 
-// Live Google Analytics stats (hidden until GA_CREDENTIALS is configured)
+// Live visitor stats — self-hosted via Netlify Blobs (no Google Cloud needed)
 (function(){
   const el=document.getElementById('livestat');
   if(!el)return;
-  fetch('/.netlify/functions/stats').then(r=>r.json()).then(d=>{
-    if(!d.configured||!d.stats)return;
-    const s=d.stats;
-    const n=x=>Number(x||0).toLocaleString();
-    el.innerHTML='<span><span class="dot"></span><b>'+n(s.active)+'</b> online now</span>'+
-      '<span>👥 <b>'+n(s.users)+'</b> learners reached</span>'+
-      '<span>👁 <b>'+n(s.views)+'</b> page views</span>';
+  let sid=sessionStorage.getItem('nl_sid');
+  if(!sid){sid=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('nl_sid',sid);}
+  const newVisitor=!localStorage.getItem('nl_seen');
+  if(newVisitor)localStorage.setItem('nl_seen','1');
+  const n=x=>Number(x||0).toLocaleString();
+  function show(d){
+    if(!d)return;
+    el.innerHTML='<span><span class="dot"></span><b>'+n(d.online)+'</b> online now</span>'+
+      '<span>👥 <b>'+n(d.visitors)+'</b> visitors</span>'+
+      '<span>👁 <b>'+n(d.views)+'</b> page views</span>';
     el.style.display='flex';
-  }).catch(()=>{});
+  }
+  function ping(beat){
+    return fetch('/.netlify/functions/stats',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({sid:sid,newVisitor:beat?false:newVisitor,heartbeat:!!beat})
+    }).then(r=>r.json()).then(show).catch(()=>{});
+  }
+  ping(false);
+  setInterval(function(){ping(true);},60000);
 })();
 </script>
 </body>
