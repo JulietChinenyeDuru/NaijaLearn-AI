@@ -425,30 +425,25 @@
       .sndbtn span{display:none}
     }
 
-    /* CONTACT */
+    /* REVIEWS */
     .contactsec{padding:72px 24px;background:linear-gradient(160deg,#F5FFF7 0%,#E6FBED 100%)}
     .contactin{max-width:820px;margin:0 auto}
-    .cwrap{display:grid;grid-template-columns:1fr 1.15fr;gap:22px;margin-top:36px}
-    .cinfo{background:linear-gradient(150deg,var(--dark) 0%,#003D1A 100%);border-radius:20px;padding:30px;color:#fff}
-    .cinfo h3{font-size:18px;font-weight:800;margin-bottom:6px}
-    .cinfo .crole{font-size:13px;color:rgba(255,255,255,0.62);margin-bottom:22px;line-height:1.55}
-    .crow{display:flex;align-items:center;gap:12px;margin-bottom:15px}
-    .cicon{width:38px;height:38px;border-radius:10px;background:rgba(0,200,81,0.18);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-    .crow a,.crow span{font-size:13px;color:rgba(255,255,255,0.85);text-decoration:none;word-break:break-word}
-    .crow a:hover{color:var(--g1)}
-    .cformcard{background:#fff;border-radius:20px;box-shadow:var(--shadowlg);padding:30px}
+    .reviewcard{max-width:620px;margin:36px auto 0;background:#fff;border-radius:20px;box-shadow:var(--shadowlg);padding:30px}
     .cform{display:flex;flex-direction:column;gap:14px}
     .cform label{font-size:11px;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:-8px}
     .cform input,.cform textarea{width:100%;padding:13px 15px;border:2px solid #E5E7EB;border-radius:var(--radsm);font-size:16px;font-family:'Inter',sans-serif;color:var(--dark);outline:none;transition:border-color .15s;resize:vertical}
     .cform input:focus,.cform textarea:focus{border-color:var(--g1)}
     .cform button{margin-top:6px;padding:14px;border:none;border-radius:var(--rad);background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-size:15px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 4px 16px rgba(0,200,81,0.35);transition:all .18s}
     .cform button:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(0,200,81,0.45)}
+    .stars{display:flex;gap:8px;font-size:36px;line-height:1;color:#E2E5EA;cursor:pointer;margin-top:2px}
+    .star{transition:color .12s,transform .12s;user-select:none}
+    .star:hover{transform:scale(1.15)}
+    .star.on{color:var(--y1)}
+    .ratehint{font-size:12px;color:var(--gray);font-weight:600;margin-top:-6px}
     @media(max-width:800px){
       .contactsec{padding:40px 16px}
-      .cwrap{grid-template-columns:1fr;gap:14px;margin-top:24px}
-      .cinfo,.cformcard{padding:20px 18px}
-      .cinfo h3{font-size:16px}
-      .crow{margin-bottom:13px}
+      .reviewcard{padding:20px 18px;margin-top:24px}
+      .stars{font-size:32px;gap:6px}
       .cform input,.cform textarea{padding:12px 14px;font-size:16px}
     }
       </style>
@@ -478,7 +473,7 @@
     <a href="#tutor" class="nav-a">Start Learning</a>
     <a href="#features" class="nav-a">Features</a>
     <a href="#universities" class="nav-a">Universities</a>
-    <a href="#contact" class="nav-a">Contact</a>
+    <a href="#reviews" class="nav-a">Reviews</a>
     <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank" class="nav-a">GitHub</a>
     <a href="#tutor" class="nav-cta">Try Free Now</a>
   </div>
@@ -712,34 +707,40 @@
   </div>
 </section>
 
-<section class="contactsec" id="contact">
+<section class="contactsec" id="reviews">
   <div class="contactin">
     <div class="sec-head">
-      <div class="sec-tag">Get in Touch</div>
-      <h2 class="sec-h2">Contact NaijaLearn-AI</h2>
-      <p class="sec-sub">Questions, feedback or collaboration ideas? Reach out we would love to hear from Nigerian students and educators.</p>
+      <div class="sec-tag">Ratings &amp; Reviews</div>
+      <h2 class="sec-h2">Rate, Review &amp; Comment</h2>
+      <p class="sec-sub">Have you used NaijaLearn-AI? Share your rating, review and comments — your feedback helps other Nigerian students and makes the tutor better.</p>
     </div>
-    <div class="cwrap">
-      <div class="cinfo">
-        <h3>Juliet Chinenye Duru</h3>
-        <p class="crole">Academic Researcher, Abia State University, Nigeria</p>
-        <div class="crow"><div class="cicon">💻</div><a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank">github.com/JulietChinenyeDuru</a></div>
-        <div class="crow"><div class="cicon">📧</div><a href="mailto:durujulietchinenye@gmail.com">durujulietchinenye@gmail.com</a></div>
-        <div class="crow"><div class="cicon">🏫</div><a href="https://www.nuc.edu.ng" target="_blank">National Universities Commission (NUC)</a></div>
-      </div>
-      <div class="cformcard">
-        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="cform">
-          <input type="hidden" name="form-name" value="contact"/>
-          <p hidden><label>Do not fill this field: <input name="bot-field"/></label></p>
-          <label for="cname">Your Name</label>
-          <input type="text" id="cname" name="name" placeholder="Enter your name" required/>
-          <label for="cemail">Your Email</label>
-          <input type="email" id="cemail" name="email" placeholder="Enter your email" required/>
-          <label for="cmsg">Message</label>
-          <textarea id="cmsg" name="message" rows="5" placeholder="Write your message here..." required></textarea>
-          <button type="submit">Send Message</button>
-        </form>
-      </div>
+    <div class="reviewcard">
+      <form name="reviews" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="cform" id="reviewform">
+        <input type="hidden" name="form-name" value="reviews"/>
+        <input type="hidden" name="rating" id="ratingval" value=""/>
+        <p hidden><label>Do not fill this field: <input name="bot-field"/></label></p>
+
+        <label>Your Rating</label>
+        <div class="stars" id="stars">
+          <span class="star" data-v="1">★</span>
+          <span class="star" data-v="2">★</span>
+          <span class="star" data-v="3">★</span>
+          <span class="star" data-v="4">★</span>
+          <span class="star" data-v="5">★</span>
+        </div>
+        <p class="ratehint" id="ratehint">Tap the stars to rate</p>
+
+        <label for="rname">Your Name</label>
+        <input type="text" id="rname" name="name" placeholder="Enter your name" required/>
+
+        <label for="runi">University (optional)</label>
+        <input type="text" id="runi" name="university" placeholder="e.g. Abia State University, Uturu"/>
+
+        <label for="rcomment">Your Review &amp; Comments</label>
+        <textarea id="rcomment" name="comment" rows="5" placeholder="What did you learn? How did NaijaLearn-AI help? Any suggestions?" required></textarea>
+
+        <button type="submit">Submit Review</button>
+      </form>
     </div>
   </div>
 </section>
@@ -751,7 +752,7 @@
     <p class="ftxt">Built for Nigerian students. Delivered in your language.</p>
     <p class="fcredit">Built by <a href="https://github.com/JulietChinenyeDuru" target="_blank">Juliet Chinenye Duru</a> Academic Researcher, Abia State University, Nigeria</p>
     <div class="flinks">
-      <a href="#contact">Contact</a>
+      <a href="#reviews">Reviews</a>
       <a href="https://github.com/JulietChinenyeDuru/NaijaLearn-AI" target="_blank">GitHub</a>
       <a href="https://www.nuc.edu.ng" target="_blank">NUC Nigeria</a>
     </div>
@@ -867,6 +868,34 @@ async function send(){
   btn.disabled=false;
   inp.focus();
 }
+
+// Star rating for the reviews form
+(function(){
+  const wrap=document.getElementById('stars');
+  if(!wrap)return;
+  const stars=wrap.querySelectorAll('.star');
+  const val=document.getElementById('ratingval');
+  const hint=document.getElementById('ratehint');
+  const labels={1:'Poor',2:'Fair',3:'Good',4:'Very good',5:'Excellent'};
+  function paint(n){stars.forEach(s=>s.classList.toggle('on',+s.dataset.v<=n));}
+  stars.forEach(s=>{
+    s.addEventListener('mouseenter',()=>paint(+s.dataset.v));
+    s.addEventListener('click',()=>{
+      val.value=s.dataset.v;
+      paint(+s.dataset.v);
+      hint.style.color='';
+      hint.textContent=s.dataset.v+' / 5 — '+labels[s.dataset.v];
+    });
+  });
+  wrap.addEventListener('mouseleave',()=>paint(+val.value||0));
+  document.getElementById('reviewform').addEventListener('submit',e=>{
+    if(!val.value){
+      e.preventDefault();
+      hint.textContent='Please tap a star to rate first ⭐';
+      hint.style.color='#D33';
+    }
+  });
+})();
 </script>
 </body>
 </html>
