@@ -38,8 +38,8 @@ export default async (req) => {
         }
         return new Response(JSON.stringify({ reviews: await getAll() }), { headers });
       }
-      const approved = (await getAll()).filter((r) => r.approved).slice(0, 100);
-      return new Response(JSON.stringify({ reviews: approved }), { headers });
+      const all = (await getAll()).slice(0, 100);
+      return new Response(JSON.stringify({ reviews: all }), { headers });
     } catch (err) {
       console.error("reviews GET error:", err);
       return new Response(JSON.stringify({ reviews: [] }), { headers });
@@ -92,10 +92,10 @@ export default async (req) => {
 
       const ts = Date.now();
       const id = `${ts}-${Math.random().toString(36).slice(2, 8)}`;
-      const review = { id, rating, comment, university, ts, approved: false };
+      const review = { id, rating, comment, university, ts, approved: true };
       await store.setJSON(id, review);
 
-      return new Response(JSON.stringify({ ok: true, pending: true }), { headers });
+      return new Response(JSON.stringify({ ok: true, review }), { headers });
     } catch (err) {
       console.error("reviews POST error:", err);
       return new Response(
