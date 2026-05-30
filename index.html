@@ -974,9 +974,8 @@ async function send(){
       });
       const data=await res.json();
       if(!res.ok||data.error){throw new Error(data.error||'failed');}
-      msg.className='formmsg ok';msg.textContent='Thank you! Your review is now on the wall. 🎉';
+      msg.className='formmsg ok';msg.textContent='Thank you! Your review was submitted and will appear once approved. 🎉';
       form.reset();val.value='';paint(0);hint.style.color='';hint.textContent='Tap the stars to rate';
-      if(data.review){current.unshift(data.review);render();}
     }catch(err){
       msg.className='formmsg err';msg.textContent='Sorry, we could not post your review. Please try again.';
     }

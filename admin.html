@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Review Moderation — NaijaLearn-AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:#0D1F10;color:#fff;min-height:100vh;padding:26px 18px}
+  .wrap{max-width:760px;margin:0 auto}
+  h1{font-size:22px;font-weight:900;margin-bottom:4px}
+  .sub{color:rgba(255,255,255,0.6);font-size:13px;margin-bottom:22px}
+  .bar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  input[type=password]{flex:1;min-width:200px;padding:12px 14px;border-radius:9px;border:2px solid #2A3B2E;background:#081A0C;color:#fff;font-size:15px;outline:none}
+  input:focus{border-color:#00C851}
+  button{padding:12px 18px;border:none;border-radius:9px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;transition:opacity .15s}
+  button:hover{opacity:.9}
+  .load{background:#00C851;color:#fff}
+  .sect-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#FFD000;margin:24px 0 10px}
+  .rev{background:#0A1A0D;border:1px solid #20352A;border-radius:12px;padding:16px;margin-bottom:12px}
+  .rev .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+  .stars{color:#FFD000;letter-spacing:2px;font-size:15px}
+  .stars .off{color:#33493A}
+  .uni{font-size:12px;color:#00C851;font-weight:700;margin-bottom:4px}
+  .txt{font-size:14px;line-height:1.6;color:#E6F2E9;white-space:pre-wrap;word-break:break-word}
+  .time{font-size:11px;color:#7C8C80;margin-top:8px}
+  .acts{display:flex;gap:8px;margin-top:12px}
+  .approve{background:#00C851;color:#fff}
+  .del{background:#3a1414;color:#ff9a9a;border:1px solid #5a2020}
+  .pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:10px}
+  .pill.pending{background:#3a2f10;color:#FFD000}
+  .pill.live{background:#0f2a18;color:#00C851}
+  .msg{font-size:13px;font-weight:600;margin-bottom:8px;min-height:18px;color:#cfe}
+  .empty{color:rgba(255,255,255,0.5);font-size:14px;padding:8px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🛡️ Review Moderation</h1>
+  <p class="sub">NaijaLearn-AI — approve or delete student reviews. Enter your moderation token to begin.</p>
+  <div class="bar">
+    <input type="password" id="token" placeholder="Moderation token" autocomplete="off"/>
+    <button class="load" id="loadbtn">Load reviews</button>
+  </div>
+  <p class="msg" id="msg"></p>
+  <div id="pendingSect"></div>
+  <div id="liveSect"></div>
+</div>
+<script>
+const tokenEl=document.getElementById('token');
+const msg=document.getElementById('msg');
+const pendingSect=document.getElementById('pendingSect');
+const liveSect=document.getElementById('liveSect');
+const API='/.netlify/functions/reviews';
+
+tokenEl.value=sessionStorage.getItem('modtok')||'';
+
+function stars(n){let s='';for(let i=1;i<=5;i++)s+=i<=n?'★':'<span class="off">★</span>';return s;}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function ago(ts){const d=Math.floor((Date.now()-ts)/1000);if(d<60)return'just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return new Date(ts).toLocaleString();}
+
+function card(r){
+  return '<div class="rev" data-id="'+r.id+'">'+
+    '<div class="top"><span class="stars">'+stars(r.rating)+'</span>'+
+    '<span class="pill '+(r.approved?'live':'pending')+'">'+(r.approved?'Live':'Pending')+'</span></div>'+
+    (r.university?'<div class="uni">'+esc(r.university)+'</div>':'')+
+    '<div class="txt">'+esc(r.comment)+'</div>'+
+    '<div class="time">'+ago(r.ts)+'</div>'+
+    '<div class="acts">'+
+      (r.approved?'':'<button class="approve" data-act="approve">✓ Approve</button>')+
+      '<button class="del" data-act="delete">🗑 Delete</button>'+
+    '</div></div>';
+}
+
+async function load(){
+  const tok=tokenEl.value.trim();
+  if(!tok){msg.textContent='Enter your moderation token.';return;}
+  sessionStorage.setItem('modtok',tok);
+  msg.textContent='Loading…';
+  try{
+    const res=await fetch(API+'?all=1',{headers:{'x-admin-token':tok}});
+    if(res.status===401){msg.textContent='❌ Invalid token.';pendingSect.innerHTML='';liveSect.innerHTML='';return;}
+    const data=await res.json();
+    const all=data.reviews||[];
+    const pending=all.filter(r=>!r.approved);
+    const live=all.filter(r=>r.approved);
+    msg.textContent=all.length+' total · '+pending.length+' pending · '+live.length+' live';
+    pendingSect.innerHTML='<div class="sect-title">Pending approval ('+pending.length+')</div>'+(pending.length?pending.map(card).join(''):'<p class="empty">Nothing waiting for review.</p>');
+    liveSect.innerHTML='<div class="sect-title">Live on site ('+live.length+')</div>'+(live.length?live.map(card).join(''):'<p class="empty">No published reviews yet.</p>');
+  }catch(e){msg.textContent='Could not load. Please try again.';}
+}
+
+async function act(id,action){
+  const tok=tokenEl.value.trim();
+  try{
+    const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json','x-admin-token':tok},body:JSON.stringify({action:action,id:id})});
+    if(!res.ok)throw new Error();
+    load();
+  }catch(e){msg.textContent='Action failed — check your token.';}
+}
+
+document.getElementById('loadbtn').addEventListener('click',load);
+tokenEl.addEventListener('keydown',e=>{if(e.key==='Enter')load();});
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-act]');
+  if(!btn)return;
+  const id=btn.closest('.rev').dataset.id;
+  const action=btn.dataset.act;
+  if(action==='delete'&&!confirm('Delete this review permanently?'))return;
+  act(id,action);
+});
+if(tokenEl.value)load();
+</script>
+</body>
+</html>
