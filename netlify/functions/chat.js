@@ -46,7 +46,7 @@ export default async (req) => {
 
   // 1) Try the cache first — identical question + settings => no API call, no cost
   try {
-    const hit = await cache.get(key, { type: "json" }).catch(() => null);
+    const hit = await cache.get(key, { type: "json", consistency: "strong" }).catch(() => null);
     if (hit && hit.data && Date.now() - (hit.ts || 0) < CACHE_TTL) {
       return new Response(JSON.stringify(hit.data), { headers: { ...headers, "X-Cache": "HIT" } });
     }
