@@ -949,9 +949,7 @@ async function send(){
       return;
     }
     const avg=reviews.reduce((a,r)=>a+r.rating,0)/reviews.length;
-    wallhead.innerHTML='<div class="avg">'+avg.toFixed(1)+'</div>'+
-      '<div class="avgstars">'+rowStars(Math.round(avg))+'</div>'+
-      '<div class="avgcount">Based on '+reviews.length+' review'+(reviews.length>1?'s':'')+'</div>';
+    wallhead.innerHTML='<div class="avgstars">'+rowStars(Math.round(avg))+'</div>';
     wall.innerHTML=reviews.map(function(r){
       return '<div class="rev"><div class="rev-top"><span class="rev-stars">'+rowStars(r.rating)+'</span>'+
         (r.university?'<span class="rev-uni">'+rEsc(r.university)+'</span>':'')+'</div>'+
