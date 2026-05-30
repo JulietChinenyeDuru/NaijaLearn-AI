@@ -10,7 +10,7 @@
   },
   "author": "Juliet Chinenye Duru",
   "license": "MIT",
-  "devDependencies": {
-    "netlify-cli": "^17.0.0"
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
   }
 }

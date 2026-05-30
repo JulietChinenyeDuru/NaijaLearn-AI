@@ -440,11 +440,31 @@
     .star:hover{transform:scale(1.15)}
     .star.on{color:var(--y1)}
     .ratehint{font-size:12px;color:var(--gray);font-weight:600;margin-top:-6px}
+    .formmsg{font-size:13px;font-weight:600;margin-top:2px;min-height:18px}
+    .formmsg.ok{color:var(--g2)}
+    .formmsg.err{color:#D33}
+    .wallhead{text-align:center;margin-top:48px;margin-bottom:20px}
+    .wallhead .avg{font-size:42px;font-weight:900;color:var(--dark);line-height:1}
+    .wallhead .avgstars{color:var(--y1);font-size:20px;letter-spacing:3px;margin:6px 0 2px}
+    .wallhead .avgstars .off{color:#E2E5EA}
+    .wallhead .avgcount{font-size:13px;color:var(--gray);font-weight:600}
+    .wall{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .rev{background:#fff;border:1.5px solid #E8E8E8;border-radius:14px;padding:16px 18px}
+    .rev-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
+    .rev-stars{color:var(--y1);font-size:14px;letter-spacing:2px}
+    .rev-stars .off{color:#E2E5EA}
+    .rev-uni{font-size:11px;color:var(--g2);font-weight:700;background:#F0FFF4;padding:3px 9px;border-radius:10px;white-space:nowrap}
+    .rev-text{font-size:14px;color:var(--dark);line-height:1.65;white-space:pre-wrap;word-break:break-word}
+    .rev-time{font-size:11px;color:#9AA0A6;font-weight:600;margin-top:9px}
+    .wallempty{grid-column:1/-1;text-align:center;color:var(--gray);font-size:14px;padding:18px 0}
     @media(max-width:800px){
       .contactsec{padding:40px 16px}
       .reviewcard{padding:20px 18px;margin-top:24px}
       .stars{font-size:32px;gap:6px}
       .cform input,.cform textarea{padding:12px 14px;font-size:16px}
+      .wall{grid-template-columns:1fr}
+      .wallhead{margin-top:34px}
+      .wallhead .avg{font-size:34px}
     }
       </style>
 
@@ -715,10 +735,9 @@
       <p class="sec-sub">Have you used NaijaLearn-AI? Share your review and comments your feedback helps other Nigerian students and makes the tutor better.</p>
     </div>
     <div class="reviewcard">
-      <form name="reviews" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="cform" id="reviewform">
-        <input type="hidden" name="form-name" value="reviews"/>
+      <form class="cform" id="reviewform">
         <input type="hidden" name="rating" id="ratingval" value=""/>
-        <p hidden><label>Do not fill this field: <input name="bot-field"/></label></p>
+        <p hidden><label>Do not fill this field: <input id="botField" name="botField"/></label></p>
 
         <label>Your Rating</label>
         <div class="stars" id="stars">
@@ -736,9 +755,13 @@
         <label for="rcomment">Your Review &amp; Comments</label>
         <textarea id="rcomment" name="comment" rows="5" placeholder="What did you learn? How did NaijaLearn-AI help? Any suggestions?" required></textarea>
 
-        <button type="submit">Submit Review</button>
+        <button type="submit" id="reviewbtn">Submit Review</button>
+        <p class="formmsg" id="formmsg"></p>
       </form>
     </div>
+
+    <div class="wallhead" id="wallhead"></div>
+    <div class="wall" id="wall"><p class="wallempty">Loading reviews…</p></div>
   </div>
 </section>
 
@@ -866,32 +889,101 @@ async function send(){
   inp.focus();
 }
 
-// Star rating for the reviews form
+// Reviews — star rating, public wall load/render, and AJAX submit
 (function(){
   const wrap=document.getElementById('stars');
   if(!wrap)return;
   const stars=wrap.querySelectorAll('.star');
   const val=document.getElementById('ratingval');
   const hint=document.getElementById('ratehint');
+  const form=document.getElementById('reviewform');
+  const btn=document.getElementById('reviewbtn');
+  const msg=document.getElementById('formmsg');
+  const wall=document.getElementById('wall');
+  const wallhead=document.getElementById('wallhead');
+  const uni=document.getElementById('runi');
+  const comment=document.getElementById('rcomment');
   const labels={1:'Poor',2:'Fair',3:'Good',4:'Very good',5:'Excellent'};
+
   function paint(n){stars.forEach(s=>s.classList.toggle('on',+s.dataset.v<=n));}
   stars.forEach(s=>{
     s.addEventListener('mouseenter',()=>paint(+s.dataset.v));
     s.addEventListener('click',()=>{
-      val.value=s.dataset.v;
-      paint(+s.dataset.v);
-      hint.style.color='';
-      hint.textContent=s.dataset.v+' / 5 — '+labels[s.dataset.v];
+      val.value=s.dataset.v;paint(+s.dataset.v);
+      hint.style.color='';hint.textContent=s.dataset.v+' / 5 — '+labels[s.dataset.v];
     });
   });
   wrap.addEventListener('mouseleave',()=>paint(+val.value||0));
-  document.getElementById('reviewform').addEventListener('submit',e=>{
-    if(!val.value){
-      e.preventDefault();
-      hint.textContent='Please tap a star to rate first ⭐';
-      hint.style.color='#D33';
+
+  function rowStars(n){
+    let s='';
+    for(let i=1;i<=5;i++){s+= i<=n ? '★' : '<span class="off">★</span>';}
+    return s;
+  }
+  function ago(ts){
+    const d=Math.floor((Date.now()-ts)/1000);
+    if(d<60)return 'just now';
+    if(d<3600)return Math.floor(d/60)+'m ago';
+    if(d<86400)return Math.floor(d/3600)+'h ago';
+    if(d<2592000)return Math.floor(d/86400)+'d ago';
+    return new Date(ts).toLocaleDateString();
+  }
+  function rEsc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  let current=[];
+  function render(){
+    const reviews=current;
+    if(!reviews.length){
+      wallhead.innerHTML='';
+      wall.innerHTML='<p class="wallempty">No reviews yet — be the first to rate NaijaLearn-AI!</p>';
+      return;
     }
+    const avg=reviews.reduce((a,r)=>a+r.rating,0)/reviews.length;
+    wallhead.innerHTML='<div class="avg">'+avg.toFixed(1)+'</div>'+
+      '<div class="avgstars">'+rowStars(Math.round(avg))+'</div>'+
+      '<div class="avgcount">Based on '+reviews.length+' review'+(reviews.length>1?'s':'')+'</div>';
+    wall.innerHTML=reviews.map(function(r){
+      return '<div class="rev"><div class="rev-top"><span class="rev-stars">'+rowStars(r.rating)+'</span>'+
+        (r.university?'<span class="rev-uni">'+rEsc(r.university)+'</span>':'')+'</div>'+
+        '<div class="rev-text">'+rEsc(r.comment).replace(/\n/g,'<br>')+'</div>'+
+        '<div class="rev-time">'+ago(r.ts)+'</div></div>';
+    }).join('');
+  }
+
+  async function load(){
+    try{
+      const res=await fetch('/.netlify/functions/reviews');
+      const data=await res.json();
+      current=data.reviews||[];
+      render();
+    }catch(e){
+      wall.innerHTML='<p class="wallempty">Could not load reviews right now.</p>';
+    }
+  }
+
+  form.addEventListener('submit',async function(e){
+    e.preventDefault();
+    if(!val.value){hint.textContent='Please tap a star to rate first ⭐';hint.style.color='#D33';return;}
+    if(!comment.value.trim()){msg.className='formmsg err';msg.textContent='Please write a short review.';return;}
+    if(document.getElementById('botField').value){return;}
+    btn.disabled=true;msg.className='formmsg';msg.textContent='Submitting…';
+    try{
+      const res=await fetch('/.netlify/functions/reviews',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({rating:val.value,university:uni.value,comment:comment.value,botField:''})
+      });
+      const data=await res.json();
+      if(!res.ok||data.error){throw new Error(data.error||'failed');}
+      msg.className='formmsg ok';msg.textContent='Thank you! Your review is now on the wall. 🎉';
+      form.reset();val.value='';paint(0);hint.style.color='';hint.textContent='Tap the stars to rate';
+      if(data.review){current.unshift(data.review);render();}
+    }catch(err){
+      msg.className='formmsg err';msg.textContent='Sorry, we could not post your review. Please try again.';
+    }
+    btn.disabled=false;
   });
+
+  load();
 })();
 </script>
 </body>
