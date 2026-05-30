@@ -807,6 +807,7 @@ const SUGG={
 
 let asubj='ICT and Computer Science';
 let hist=[];
+const NL_CID=(function(){try{let c=localStorage.getItem('nl_cid');if(!c){c=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('nl_cid',c);}return c;}catch(e){return 'anon';}})();
 
 document.querySelectorAll('.sbtn').forEach(b=>{
   b.addEventListener('click',()=>{
@@ -884,7 +885,7 @@ async function send(){
     const res=await fetch('/.netlify/functions/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:sys,messages:hist})
+      body:JSON.stringify({system:sys,messages:hist,cid:NL_CID})
     });
     const data=await res.json();
     rmTyping();

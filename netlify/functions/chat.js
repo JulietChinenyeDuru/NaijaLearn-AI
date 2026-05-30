@@ -11,6 +11,8 @@ const headers = {
 const MAX_TOKENS = 600;                 // shorter answers => lower output-token cost
 const HISTORY_MAX = 8;                  // only send the last 8 messages => lower input cost
 const CACHE_TTL = 7 * 24 * 3600 * 1000; // reuse a cached answer for up to 7 days
+const PER_DEVICE_DAILY = 25;            // max NEW (uncached) questions per student device per day
+const GLOBAL_DAILY = 1000;              // hard daily ceiling on total paid API calls (cost cap)
 
 function reply(text, cache) {
   return new Response(JSON.stringify({ content: [{ text }] }), {
@@ -44,7 +46,7 @@ export default async (req) => {
   const cache = getStore("aicache");
   const key = cacheKey(system, messages);
 
-  // 1) Try the cache first — identical question + settings => no API call, no cost
+  // 1) Try the cache first — identical question + settings => no API call, no cost, no quota used
   try {
     const hit = await cache.get(key, { type: "json", consistency: "strong" }).catch(() => null);
     if (hit && hit.data && Date.now() - (hit.ts || 0) < CACHE_TTL) {
@@ -54,7 +56,28 @@ export default async (req) => {
     /* cache read is best-effort */
   }
 
-  // 2) Cache miss — call the paid API
+  // 2) Rate limiting — only paid (uncached) questions count toward the limits
+  const usage = getStore("usage");
+  const day = new Date().toISOString().slice(0, 10);
+  const gKey = "global-" + day;
+  const cid = String(body.cid || "anon").slice(0, 60);
+  const dKey = "cid-" + cid + "-" + day;
+  let g = { count: 0 };
+  let d = { count: 0 };
+  try {
+    g = (await usage.get(gKey, { type: "json", consistency: "strong" }).catch(() => null)) || { count: 0 };
+    d = (await usage.get(dKey, { type: "json", consistency: "strong" }).catch(() => null)) || { count: 0 };
+  } catch (e) {
+    /* if usage store is unavailable, fail open and still answer */
+  }
+  if (g.count >= GLOBAL_DAILY) {
+    return reply("NaijaLearn-AI has reached today's free-usage limit and is resting to stay free for everyone. Please try again tomorrow! 🙏", "LIMIT");
+  }
+  if (d.count >= PER_DEVICE_DAILY) {
+    return reply("You've used your " + PER_DEVICE_DAILY + " free questions for today. Please come back tomorrow to keep learning — thank you for using NaijaLearn-AI! 🎓", "LIMIT");
+  }
+
+  // 3) Cache miss & within limits — call the paid API
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -79,11 +102,19 @@ export default async (req) => {
 
     const data = await response.json();
 
-    // 3) Store the answer so the next identical question is free
+    // 4) Cache the answer (next identical question is free) and count this paid call
     try {
       await cache.setJSON(key, { ts: Date.now(), data });
     } catch (e) {
       /* cache write is best-effort */
+    }
+    try {
+      g.count += 1;
+      await usage.setJSON(gKey, g);
+      d.count += 1;
+      await usage.setJSON(dKey, d);
+    } catch (e) {
+      /* usage write is best-effort */
     }
 
     return new Response(JSON.stringify(data), { headers: { ...headers, "X-Cache": "MISS" } });
