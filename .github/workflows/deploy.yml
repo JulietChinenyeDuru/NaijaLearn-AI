@@ -1,0 +1,58 @@
+name: CI & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check serverless function syntax
+        run: |
+          for f in netlify/functions/*.js; do
+            echo "Checking $f"
+            node --check "$f"
+          done
+
+      - name: Verify key files exist
+        run: |
+          test -f index.html && echo "index.html present"
+          test -f netlify.toml && echo "netlify.toml present"
+          test -f netlify/functions/chat.js && echo "chat function present"
+
+  deploy:
+    name: Deploy to Netlify
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Deploy to production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "::warning::Netlify secrets not set — skipping deploy."
+            echo "Add NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID in repo Settings → Secrets and variables → Actions."
+            exit 0
+          fi
+          npx netlify-cli@latest deploy --prod --dir .
