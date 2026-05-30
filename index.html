@@ -956,7 +956,7 @@ async function send(){
       return '<div class="rev"><div class="rev-top"><span class="rev-stars">'+rowStars(r.rating)+'</span>'+
         (r.university?'<span class="rev-uni">'+rEsc(r.university)+'</span>':'')+'</div>'+
         '<div class="rev-text">'+rEsc(r.comment).replace(/\n/g,'<br>')+'</div>'+
-        '<div class="rev-time">'+ago(r.ts)+'</div></div>';
+        '</div>';
     }).join('');
   }
 
