@@ -171,7 +171,7 @@ This project contributes to:
 
 ---
 
-## Innovation & Global Talent Visa Relevance
+## Innovation 
 
 NaijaLearn-AI represents a technically novel and socially significant contribution to the global EdTech and AI landscape.
 
@@ -206,7 +206,7 @@ Planned features and improvements:
 - [ ] 💻 Interactive coding exercises and mini projects
 - [ ] 📊 Advanced learning analytics dashboard
 - [ ] 📱 Native mobile application (Android-first)
-- [ ] 🌍 Support for additional African languages (Yoruba, Igbo, Hausa, Pidgin)
+- [ ] 🌍 Support for additional African languages 
 - [ ] 🏫 School/institution integration API
 
 ---
@@ -243,7 +243,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history of changes and releases.
 
 
 <p align="center">
-  Built with ❤️ in Nigeria, for Africa and the world.
+  Built for Nigeria, Africa and the world.
 </p>
 
 
