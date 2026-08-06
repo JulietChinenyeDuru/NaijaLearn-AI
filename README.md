@@ -33,7 +33,7 @@ Millions of Nigerian students and learners lack access to adaptive, intelligent 
 
 This project was conceived, designed, and built by **Juliet Chineye Duru**, an ICT Lecturer and researcher at Abia State University, Nigeria, as a direct response to the digital education inequality she witnesses daily in her professional environment.
 
-> *"Education is the most powerful weapon you can use to change the world — NaijaLearn-AI puts that weapon in the hands of every Nigerian learner."*
+> *"Education is the most powerful weapon you can use to change the world  NaijaLearn-AI puts that weapon in the hands of every Nigerian learner."*
 
 ---
 
